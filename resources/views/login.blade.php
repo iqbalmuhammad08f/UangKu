@@ -1,0 +1,3 @@
+<div>
+    Hello laravel
+</div>
