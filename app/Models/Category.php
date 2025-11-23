@@ -16,23 +16,6 @@ class Category extends Model
         'is_default'
     ];
 
-    public function scopeGlobal($query)
-    {
-        return $query->whereNull('user_id')->where('is_default', true);
-    }
-
-    public function scopePersonal($query, $userId)
-    {
-        return $query->where('user_id', $userId);
-    }
-
-    public function scopeForUser($query, $userId)
-    {
-        return $query->where(function ($q) use ($userId) {
-            $q->whereNull('user_id')->where('is_default', true)
-                ->orWhere('user_id', $userId);
-        });
-    }
 
     public function user()
     {
@@ -44,13 +27,4 @@ class Category extends Model
         return $this->hasMany(Transaction::class);
     }
 
-    public function isGlobal()
-    {
-        return is_null($this->user_id) && $this->is_default;
-    }
-
-    public function isPersonal()
-    {
-        return !is_null($this->user_id);
-    }
 }
