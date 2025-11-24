@@ -16,38 +16,30 @@
             <h2 class="text-3xl font-bold text-gray-900 mb-2">Daftar Akun</h2>
             <p class="text-gray-500 mb-6">Lengkapi data diri di bawah ini.</p>
 
-            <!-- Success Message -->
-            @if(session('success'))
-                <div class="mb-4 p-3 bg-green-100 text-green-700 rounded-lg text-sm">
-                    {{ session('success') }}
-                </div>
-            @endif
-
-            <!-- Error Message -->
-            @if($errors->any())
-                <div class="mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm">
-                    <ul class="list-disc list-inside">
-                        @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
 
             <form class="space-y-4" action="{{ route('register') }}" method="POST">
                 @csrf
 
-                <x-input name="name" placeholder="Nama Anda" label="Nama Lengkap" icon="fas fa-user" 
-                         value="{{ old('name') }}" />
+                <x-input name="name" placeholder="Nama Anda: min 3 karakter" label="Nama Lengkap" icon="fas fa-user"
+                    value="{{ old('name') }}" />
 
-                <x-input name="email" placeholder="contoh@email.com" label="Email" icon="fa-solid fa-envelope" 
-                         value="{{ old('email') }}" />
+                <x-input name="email" placeholder="contoh@email.com" label="Email" icon="fa-solid fa-envelope"
+                    value="{{ old('email') }}" />
 
-                <x-input name="password" type="password" placeholder="Masukkan password" label="Password"
+                <x-input name="password" type="password" placeholder="Masukkan password: min 6 karakter" label="Password"
                     icon="fa-solid fa-lock" />
 
                 <x-input name="password_confirmation" type="password" placeholder="Ulangi password" label="Ulangi Password"
                     icon="fa-solid fa-lock" />
+                @if ($errors->any())
+                    <div class="mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm">
+                        <ul class="list-disc list-inside">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
                 <x-button type="submit" icon="fas fa-user-plus">
                     Buat Akun

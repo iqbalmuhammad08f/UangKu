@@ -7,10 +7,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -21,19 +17,17 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
+        $validation = $request->validate([
             'email' => 'required|email',
-            'password' => 'required'
+            'password' => 'required|min:3'
         ]);
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($validation)) {
             $request->session()->regenerate();
-            return redirect()->route('dashboard')->with('success', 'Login berhasil!');
+            return redirect()->route('dashboard')->with('success', 'Login berhasil');
         }
 
-        return back()->withErrors([
-            'email' => 'Email atau password salah!'
-        ])->onlyInput('email');
+        return back()->withErrors('Email atau password salah');
     }
 
     public function showRegister()
@@ -43,63 +37,38 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        $validated = $request->validate([
+        $validation = $request->validate([
             'name' => 'required|min:3|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed|min:6'
         ]);
 
-        try {
-            $user = User::create([
-                'name' => $validated['name'],
-                'email' => $validated['email'],
-                'password' => Hash::make($validated['password']),
-            ]);
+        User::create([
+            'name' => $validation['name'],
+            'email' => $validation['email'],
+            'password' => Hash::make($validation['password'])
+        ]);
 
-            Auth::login($user);
-
-            return redirect()->route('dashboard')->with('success', 'Registrasi berhasil! Selamat datang!');
-        } catch (\Exception $e) {
-            return back()->withErrors(['error' => 'Terjadi kesalahan saat registrasi. Silakan coba lagi.'])->withInput();
-        }
+        return redirect()->route('login')->with('success', 'Registrasi berhasil');
     }
 
-    public function logout(Request $request)
-    {
-        Auth::logout();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect()->route('login')->with('success', 'Logout berhasil!');
-    }
-
-    public function forgotPassword()
+    public function showForgotPassword()
     {
         return view('pages.auth.forgot-password');
     }
-
-    public function sendResetLink(Request $request)
+    
+    public function forgotPassword(Request $request)
     {
         $request->validate(['email' => 'required|email']);
 
-        // Cek apakah email terdaftar menggunakan Eloquent
-        $user = User::where('email', $request->email)->first();
+        $email = User::where('email', $request->email)->first();
 
-        if (!$user) {
-            return back()->withErrors(['email' => 'Email tidak terdaftar!'])->withInput();
+        if (!$email) {
+            return back()->withErrors('Email tidak terdaftar');
         }
 
-        try {
-            // Generate token menggunakan model method
-            $token = PasswordResetToken::generateToken($request->email);
-
-            // Redirect langsung ke halaman reset password dengan token
-            return redirect()->route('password.reset', ['token' => $token, 'email' => $request->email])
-                ->with('success', 'Silakan buat password baru Anda.');
-        } catch (\Exception $e) {
-            return back()->withErrors(['error' => 'Terjadi kesalahan sistem. Silakan coba lagi.'])->withInput();
-        }
+        $token = PasswordResetToken::generateToken($request->email);
+        return redirect()->route('show-reset-password', ['token' => $token, 'email' => $request->email]);
     }
 
     public function showResetPassword(Request $request)
@@ -118,33 +87,24 @@ class AuthController extends Controller
             'password' => 'required|confirmed|min:6',
         ]);
 
-        try {
-            // Validasi token menggunakan Eloquent
-            $resetRecord = PasswordResetToken::findValidToken($request->email, $request->token);
+        $resetRecord = PasswordResetToken::findValidToken($request->email, $request->token);
 
-            if (!$resetRecord) {
-                return back()->withErrors(['email' => 'Token tidak valid atau sudah kedaluwarsa.'])->withInput();
-            }
-
-            // Update password user menggunakan Eloquent
-            $user = User::where('email', $request->email)->first();
-
-            if (!$user) {
-                return back()->withErrors(['email' => 'User tidak ditemukan.'])->withInput();
-            }
-
-            $user->update([
-                'password' => Hash::make($request->password)
-            ]);
-
-            // Hapus token setelah digunakan menggunakan Eloquent
-            $resetRecord->deleteToken();
-
-            event(new PasswordReset($user));
-
-            return redirect()->route('login')->with('success', 'Password berhasil direset! Silakan login dengan password baru.');
-        } catch (\Exception $e) {
-            return back()->withErrors(['error' => 'Terjadi kesalahan sistem. Silakan coba lagi.'])->withInput();
+        if (!$resetRecord) {
+            return back()->withErrors(['email' => 'Token tidak valid atau sudah kedaluwarsa.'])->withInput();
         }
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return back()->withErrors(['email' => 'User tidak ditemukan.'])->withInput();
+        }
+
+        $user->update([
+            'password' => Hash::make($request->password)
+        ]);
+
+        $resetRecord->deleteToken();
+
+        return redirect()->route('login')->with('success', 'Password berhasil direset!');
     }
 }

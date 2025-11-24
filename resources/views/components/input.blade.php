@@ -9,7 +9,7 @@
 <div {{ $attributes -> class(['mb-5']) }}>
 
     @if($label)
-        <label for="{{ $name }}" class="block text-gray-700 text-sm font-medium mb-2">
+        <label for="{{ $name }}" class="block text-gray-700 text-sm font-medium mb-2 text-start">
             {{ $label }}
         </label>
     @endif
@@ -26,10 +26,10 @@
             name="{{ $name }}"
             id="{{ $name }}"
             placeholder="{{ $placeholder }}"
-            
+
             class="
-                w-full py-3 rounded-lg border border-gray-300 
-                focus:outline-none focus:ring-2 focus:ring-blue-500 
+                w-full py-3 rounded-lg border border-gray-300
+                focus:outline-none focus:ring-2 focus:ring-blue-500
                 transition
                 @if($icon) pl-10 @else pl-4 @endif
                 @if($type === 'password') pr-10 @else pr-4 @endif
@@ -37,7 +37,7 @@
             {{ $attributes }}
         >
         @if($type === 'password')
-            <span 
+            <span
                 class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-gray-400"
                 onclick="togglePassword('{{ $name }}')"
             >

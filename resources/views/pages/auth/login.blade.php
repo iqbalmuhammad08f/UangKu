@@ -14,36 +14,26 @@
                 <p class="text-gray-500 text-sm">Selamat datang kembali, silakan masukkan akun anda.</p>
             </div>
 
-            <!-- Success Message -->
-            @if(session('success'))
-                <div class="mb-4 p-3 bg-green-100 text-green-700 rounded-lg text-sm">
-                    {{ session('success') }}
-                </div>
-            @endif
-
-            <!-- Error Message -->
-            @if($errors->any())
-                <div class="mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm">
-                    <ul class="list-disc list-inside">
-                        @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-
             <form action="{{ route('login') }}" method="POST">
                 @csrf
                 <x-input name="email" type="email" placeholder="Masukkan email" label="Email"
                     icon="fa-solid fa-envelope" value="{{ old('email') }}" />
-                
+
                 <x-input name="password" type="password" placeholder="Masukkan password" label="Password"
                     icon="fa-solid fa-lock" />
-                
+                @if ($errors->any())
+                    <div class="mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm">
+                        <ul class="list-disc list-inside">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <div class="flex justify-end mb-6">
-                    <a href="{{ route('password.request') }}" class="text-sm text-blue-600 hover:text-blue-800 font-medium">Lupa Password?</a>
+                    <a href="{{ route('forgot-password') }}"
+                        class="text-sm text-blue-600 hover:text-blue-800 font-medium">Lupa Password?</a>
                 </div>
-                
                 <x-button type="submit" icon="fa-solid fa-right-to-bracket">
                     Masuk
                 </x-button>
@@ -57,4 +47,7 @@
             </div>
         </div>
     </div>
+    @if (session('success'))
+        <x-toast type="success" message="{{ session('success') }}" />
+    @endif
 @endsection
