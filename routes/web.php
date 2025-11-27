@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\dashboardController;
+use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -20,13 +23,8 @@ Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [dashboardController::class, 'dashboard'])->name('dashboard');
-    Route::get('/transactions', function () {
-        return view('pages.transactions.index');
-    })->name('transactions.index');
-    Route::get('/wallets', function () {
-        return view('pages.wallets.index');
-    })->name('wallets.index');
-    Route::get('/categories',function(){
-        return view('pages.categories.index');
-    })->name('categories.index');
+    Route::get('/transactions',[TransactionController::class,'showTransaction'])->name('transactions.index');
+    Route::get('/wallets',[WalletController::class,'showWallet'])->name('wallets.index');
+    Route::resource('categories', CategoryController::class)->except(['create', 'edit', 'show']);
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

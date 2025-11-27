@@ -2,8 +2,8 @@
 
 @php
     $colors = [
-        'success' => 'bg-green-500',
-        'error' => 'bg-red-500',
+        'success' => 'bg-green-100 border border-green-400 text-green-700',
+        'error' => 'bg-red-100 border border-red-400 text-red-700',
         'warning' => 'bg-yellow-500',
         'info' => 'bg-blue-500',
     ];
@@ -13,11 +13,11 @@
 
 <div
     id="{{ $id }}"
-    class="z-50 fixed bottom-5 right-5 flex items-center gap-3 px-4 py-3 rounded-lg shadow-md text-white opacity-0 translate-x-5 transition-all duration-300 {{ $colors[$type] ?? $colors['info'] }}"
+    class="z-50 fixed bottom-5 right-5 flex items-center gap-3 px-4 py-3 rounded-lg shadow-md opacity-0 translate-x-5 transition-all duration-300 {{ $colors[$type] ?? $colors['info'] }}"
 >
 
     <!-- Icon (opsional, biar minimalis tetap bagus) -->
-    <div class="w-2 h-2 rounded-full bg-white/70"></div>
+    <div class="w-2 h-2 rounded-full bg-white"></div>
 
     <!-- Pesan -->
     <span class="text-sm">

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->enum('type',['income','expense']);
             $table->boolean('is_default')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

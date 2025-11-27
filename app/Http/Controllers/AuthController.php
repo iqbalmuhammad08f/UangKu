@@ -56,7 +56,7 @@ class AuthController extends Controller
     {
         return view('pages.auth.forgot-password');
     }
-    
+
     public function forgotPassword(Request $request)
     {
         $request->validate(['email' => 'required|email']);
@@ -107,4 +107,15 @@ class AuthController extends Controller
 
         return redirect()->route('login')->with('success', 'Password berhasil direset!');
     }
+    public function logout(Request $request)
+{
+    // Hapus session login
+    Auth::logout();
+
+    // Regenerate session supaya lebih aman
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    return redirect()->route('login')->with('success', 'Berhasil logout!');
+}
 }

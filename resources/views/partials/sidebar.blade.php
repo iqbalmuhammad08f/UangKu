@@ -71,14 +71,17 @@
                     </a>
                 </li>
                 <li>
-                    <form action="#" method="POST"> @csrf
-                        <button type="submit"
-                            class="flex items-center py-2 text-red-500 hover:text-red-700 transition-colors w-full text-left">
-                            <i class="fa-solid fa-right-from-bracket w-6 mr-2"></i> Logout
-                        </button>
-                    </form>
+                    <button type="submit" onclick="toggleModal('logoutModal')"
+                        class="flex items-center py-2 text-red-500 hover:text-red-700 transition-colors w-full text-left">
+                        <i class="fa-solid fa-right-from-bracket w-6 mr-2"></i> Logout
+                    </button>
+
                 </li>
             </ul>
         </div>
     </nav>
+    <x-modal id="logoutModal" title="Logout" method="post" button="Ya" action="{{route('logout')}}">
+        Apakah anda yakin ingin keluar
+    </x-modal>
+
 </aside>
