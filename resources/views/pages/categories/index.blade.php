@@ -47,36 +47,14 @@
     @endif
 
     <div id="view-expense" class="block animate-fade-in space-y-8">
-
         <div>
-            <h3 class="text-gray-500 text-xs font-bold uppercase tracking-wider mb-4 ml-1 flex items-center gap-2">
-                <i class="fa-solid fa-globe"></i> Kategori Dasar (Global)
-            </h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                @foreach ($globalCategories->where('type', 'expense') as $cat)
-                    <div
-                        class="bg-gray-50 p-4 rounded-xl shadow-sm border border-gray-200 flex items-center justify-between opacity-80 hover:shadow-md">
-                        <div class="flex items-center gap-3">
-                            <span class="font-medium text-gray-700">{{ ucwords($cat->name) }}</span>
-                        </div>
-                        <div class="text-xs text-gray-400">
-                            <i class="fa-solid fa-lock"></i>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        </div>
+            <h3 class="text-lg font-bold text-gray-700 mb-4">Daftar Kategori</h3>
 
-        <div>
-            <h3 class="text-blue-600 text-xs font-bold uppercase tracking-wider mb-4 ml-1 flex items-center gap-2">
-                <i class="fa-solid fa-user"></i> Kategori Saya
-            </h3>
-
-            @if ($userCategories->where('type', 'expense')->isEmpty())
+            @if ($categories->where('type', 'expense')->isEmpty())
                 <p class="text-sm text-gray-400 italic ml-1">Belum ada kategori kustom. Tambahkan kategori baru!</p>
             @else
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    @foreach ($userCategories->where('type', 'expense') as $cat)
+                    @foreach ($categories->where('type', 'expense') as $cat)
                         <div
                             class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex items-center justify-between group transition-colors hover:shadow-md">
                             <div class="flex items-center gap-3">
@@ -102,34 +80,13 @@
     <div id="view-income" class="hidden animate-fade-in space-y-8">
 
         <div>
-            <h3 class="text-gray-500 text-xs font-bold uppercase tracking-wider mb-4 ml-1 flex items-center gap-2">
-                <i class="fa-solid fa-globe"></i> Kategori Dasar (Global)
-            </h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                @foreach ($globalCategories->where('type', 'income') as $cat)
-                    <div
-                        class="bg-gray-50 p-4 rounded-xl shadow-sm border border-gray-200 flex items-center justify-between opacity-80 hover:shadow-md">
-                        <div class="flex items-center gap-3">
-                            <span class="font-medium text-gray-700">{{ ucwords($cat->name) }}</span>
-                        </div>
-                        <div class="text-xs text-gray-400">
-                            <i class="fa-solid fa-lock"></i>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        </div>
+            <h3 class="text-lg font-bold text-gray-700 mb-4">Daftar Kategori</h3>
 
-        <div>
-            <h3 class="text-blue-600 text-xs font-bold uppercase tracking-wider mb-4 ml-1 flex items-center gap-2">
-                <i class="fa-solid fa-user"></i> Kategori Saya
-            </h3>
-
-            @if ($userCategories->where('type', 'income')->isEmpty())
+            @if ($categories->where('type', 'income')->isEmpty())
                 <p class="text-sm text-gray-400 italic ml-1">Belum ada kategori pemasukan tambahan.</p>
             @else
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    @foreach ($userCategories->where('type', 'income') as $cat)
+                    @foreach ($categories->where('type', 'income') as $cat)
                         <div
                             class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex items-center justify-between group transition-colors hover:shadow-md">
                             <div class="flex items-center gap-3">
@@ -199,8 +156,7 @@
 
 
     <div id="editCategoryModal" class="fixed inset-0 z-50 hidden items-center justify-center">
-        <div class="absolute inset-0 backdrop-blur-sm transition-opacity"
-            onclick="toggleModal('editCategoryModal')"></div>
+        <div class="absolute inset-0 backdrop-blur-sm transition-opacity" onclick="toggleModal('editCategoryModal')"></div>
         <div class="relative flex min-h-full items-center justify-center p-4">
             <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6">
                 <h3 class="text-lg font-bold text-gray-800 mb-4">Edit Kategori</h3>
@@ -254,7 +210,6 @@
             const form = document.getElementById('editForm');
             const inputName = document.getElementById('editName');
 
-            // Set action form ke route update
             form.action = `/categories/${id}`;
             inputName.value = name;
 

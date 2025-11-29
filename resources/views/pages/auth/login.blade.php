@@ -31,7 +31,7 @@
                     </div>
                 @endif
                 <div class="flex justify-end mb-6">
-                    <a href="{{ route('forgot-password') }}"
+                    <a href="{{ route('forgot-password.show') }}"
                         class="text-sm text-blue-600 hover:text-blue-800 font-medium">Lupa Password?</a>
                 </div>
                 <x-button type="submit" icon="fa-solid fa-right-to-bracket">
@@ -42,7 +42,7 @@
             <div class="mt-8 text-center">
                 <p class="text-sm text-gray-600">
                     Belum punya akun?
-                    <a href="{{ route('register') }}" class="text-blue-600 font-bold hover:underline">Daftar Sekarang</a>
+                    <a href="{{ route('register.show') }}" class="text-blue-600 font-bold hover:underline">Daftar Sekarang</a>
                 </p>
             </div>
         </div>

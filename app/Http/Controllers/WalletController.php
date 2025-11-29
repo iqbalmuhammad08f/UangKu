@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class WalletController extends Controller
 {
-    public function showWallet()
+    public function index()
     {
         return view('pages.wallets.index');
     }

@@ -8,16 +8,11 @@
         'info' => 'bg-blue-500',
     ];
 
-    $id = 'toast_'.uniqid();
+    $id = 'toast_' . uniqid();
 @endphp
 
-<div
-    id="{{ $id }}"
-    class="z-50 fixed bottom-5 right-5 flex items-center gap-3 px-4 py-3 rounded-lg shadow-md opacity-0 translate-x-5 transition-all duration-300 {{ $colors[$type] ?? $colors['info'] }}"
->
-
-    <!-- Icon (opsional, biar minimalis tetap bagus) -->
-    <div class="w-2 h-2 rounded-full bg-white"></div>
+<div id="{{ $id }}"
+    class="z-50 fixed bottom-5 right-5 flex items-center gap-3 px-4 py-3 rounded-lg shadow-md opacity-0 translate-x-5 transition-all duration-300 {{ $colors[$type] ?? $colors['info'] }}">
 
     <!-- Pesan -->
     <span class="text-sm">
@@ -25,11 +20,8 @@
     </span>
 
     <!-- Tombol Close -->
-    <button
-        onclick="closeToast('{{ $id }}')"
-        class="ml-2 text-white/80 hover:text-white text-lg leading-none"
-    >
-        &times;
+    <button onclick="closeToast('{{ $id }}')" class="ml-2 text-black text-lg leading-none">
+        <i class="fa-solid fa-xmark"></i>
     </button>
 </div>
 

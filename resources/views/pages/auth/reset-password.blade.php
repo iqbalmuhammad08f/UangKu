@@ -16,14 +16,6 @@
             Buat password baru untuk akun Anda.
         </p>
 
-        <!-- Success Message -->
-        @if (session('success'))
-            <div class="mb-4 p-3 bg-green-100 text-green-700 rounded-lg text-sm">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        <!-- Error Message -->
         @if ($errors->any())
             <div class="mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm">
                 <ul class="list-disc list-inside">
@@ -52,7 +44,7 @@
                 </x-button>
         </form>
 
-        <a href="{{ route('login') }}" class="inline-flex items-center text-gray-600 hover:text-blue-600 font-medium transition text-sm">
+        <a href="{{ route('login.show') }}" class="inline-flex items-center text-gray-600 hover:text-blue-600 font-medium transition text-sm">
             <i class="fa-solid fa-arrow-left mr-2"></i> Kembali ke Login
         </a>
 

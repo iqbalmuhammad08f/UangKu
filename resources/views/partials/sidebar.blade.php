@@ -8,13 +8,13 @@
         <ul class="space-y-1 px-3">
 
             <li>
-                <a href="{{ route('dashboard') }}"
-                    class="flex items-center px-4 py-3 rounded-lg group transition-colors
-                   {{ request()->routeIs('dashboard') ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:bg-gray-50' }}">
+                <a href="{{ route('dashboard.index') }}"
+                   class="flex items-center px-4 py-3 rounded-lg group transition-colors
+                   {{ request()->routeIs('dashboard.*') ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:bg-gray-50' }}">
 
-                    <i
-                        class="fa-solid fa-chart-pie w-6 h-6 flex items-center justify-center mr-2
-                    {{ request()->routeIs('dashboard') ? 'text-blue-600' : 'text-gray-400 group-hover:text-gray-600' }}"></i>
+                    <i class="fa-solid fa-chart-pie w-6 h-6 flex items-center justify-center mr-2
+                       {{ request()->routeIs('dashboard.*') ? 'text-blue-600' : 'text-gray-400 group-hover:text-gray-600' }}">
+                    </i>
 
                     <span class="font-medium">Dashboard</span>
                 </a>
@@ -22,12 +22,12 @@
 
             <li>
                 <a href="{{ route('transactions.index') }}"
-                    class="flex items-center px-4 py-3 rounded-lg group transition-colors
-                   {{ request()->routeIs('transactions*') ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:bg-gray-50' }}">
+                   class="flex items-center px-4 py-3 rounded-lg group transition-colors
+                   {{ request()->routeIs('transactions.*') ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:bg-gray-50' }}">
 
-                    <i
-                        class="fa-solid fa-list w-6 h-6 flex items-center justify-center mr-2
-                    {{ request()->routeIs('transactions*') ? 'text-blue-600' : 'text-gray-400 group-hover:text-gray-600' }}"></i>
+                    <i class="fa-solid fa-list w-6 h-6 flex items-center justify-center mr-2
+                       {{ request()->routeIs('transactions.*') ? 'text-blue-600' : 'text-gray-400 group-hover:text-gray-600' }}">
+                    </i>
 
                     <span class="font-medium">Transaksi</span>
                 </a>
@@ -35,12 +35,12 @@
 
             <li>
                 <a href="{{ route('wallets.index') }}"
-                    class="flex items-center px-4 py-3 rounded-lg group transition-colors
-       {{ request()->routeIs('wallets*') ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:bg-gray-50' }}">
+                   class="flex items-center px-4 py-3 rounded-lg group transition-colors
+                   {{ request()->routeIs('wallets.*') ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:bg-gray-50' }}">
 
-                    <i
-                        class="fa-solid fa-wallet w-6 h-6 flex items-center justify-center mr-2
-        {{ request()->routeIs('wallets*') ? 'text-blue-600' : 'text-gray-400 group-hover:text-gray-600' }}"></i>
+                    <i class="fa-solid fa-wallet w-6 h-6 flex items-center justify-center mr-2
+                       {{ request()->routeIs('wallets.*') ? 'text-blue-600' : 'text-gray-400 group-hover:text-gray-600' }}">
+                    </i>
 
                     <span class="font-medium">Dompet Saya</span>
                 </a>
@@ -48,12 +48,12 @@
 
             <li>
                 <a href="{{ route('categories.index') }}"
-                    class="flex items-center px-4 py-3 rounded-lg group transition-colors
-       {{ request()->routeIs('categories*') ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:bg-gray-50' }}">
+                   class="flex items-center px-4 py-3 rounded-lg group transition-colors
+                   {{ request()->routeIs('categories.*') ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:bg-gray-50' }}">
 
-                    <i
-                        class="fa-solid fa-tags w-6 h-6 flex items-center justify-center mr-2
-        {{ request()->routeIs('categories*') ? 'text-blue-600' : 'text-gray-400 group-hover:text-gray-600' }}"></i>
+                    <i class="fa-solid fa-tags w-6 h-6 flex items-center justify-center mr-2
+                       {{ request()->routeIs('categories.*') ? 'text-blue-600' : 'text-gray-400 group-hover:text-gray-600' }}">
+                    </i>
 
                     <span class="font-medium">Kategori</span>
                 </a>
@@ -66,22 +66,23 @@
             <ul class="space-y-1">
                 <li>
                     <a href="#"
-                        class="flex items-center py-2 text-gray-600 hover:text-blue-600 transition-colors">
+                       class="flex items-center py-2 text-gray-600 hover:text-blue-600 transition-colors">
                         <i class="fa-solid fa-user w-6 mr-2"></i> Profil
                     </a>
                 </li>
+
                 <li>
-                    <button type="submit" onclick="toggleModal('logoutModal')"
+                    <button onclick="toggleModal('logoutModal')"
                         class="flex items-center py-2 text-red-500 hover:text-red-700 transition-colors w-full text-left">
                         <i class="fa-solid fa-right-from-bracket w-6 mr-2"></i> Logout
                     </button>
-
                 </li>
             </ul>
         </div>
     </nav>
-    <x-modal id="logoutModal" title="Logout" method="post" button="Ya" action="{{route('logout')}}">
-        Apakah anda yakin ingin keluar
+
+    <x-modal id="logoutModal" title="Logout" method="post" button="Ya" action="{{ route('logout') }}">
+        Apakah anda yakin ingin keluar?
     </x-modal>
 
 </aside>

@@ -27,9 +27,6 @@ class PasswordResetToken extends Model
 
     public $timestamps = false;
 
-    /**
-     * Generate new password reset token
-     */
     public static function generateToken($email)
     {
         $token = Str::random(60);
@@ -45,9 +42,6 @@ class PasswordResetToken extends Model
         return $token;
     }
 
-    /**
-     * Find valid token
-     */
     public static function findValidToken($email, $token)
     {
         $record = self::where('email', $email)->first();
@@ -56,7 +50,6 @@ class PasswordResetToken extends Model
             return null;
         }
 
-        // Check if token is valid and not expired (1 hour)
         if (!Hash::check($token, $record->token)) {
             return null;
         }
@@ -70,9 +63,6 @@ class PasswordResetToken extends Model
         return $record;
     }
 
-    /**
-     * Delete token after use
-     */
     public function deleteToken()
     {
         return $this->delete();

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
-    public function showTransaction(){
+    public function index(){
         return view('pages.transactions.index');
     }
 }

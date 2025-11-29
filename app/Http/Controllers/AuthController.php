@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\PasswordResetToken;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -24,7 +25,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($validation)) {
             $request->session()->regenerate();
-            return redirect()->route('dashboard')->with('success', 'Login berhasil');
+            return redirect()->route('dashboard.index')->with('success', 'Login berhasil');
         }
 
         return back()->withErrors('Email atau password salah');
@@ -43,13 +44,22 @@ class AuthController extends Controller
             'password' => 'required|confirmed|min:6'
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => $validation['name'],
             'email' => $validation['email'],
             'password' => Hash::make($validation['password'])
         ]);
-
-        return redirect()->route('login')->with('success', 'Registrasi berhasil');
+        $categorys = Category::whereNull('user_id')->get();
+        
+        foreach ($categorys as $cat) {
+            Category::create([
+                'user_id' => $user->id,
+                'name' => $cat->name,
+                'type' => $cat->type,
+                'is_default' => true
+            ]);
+        }
+        return redirect()->route('login.show')->with('success', 'Registrasi berhasil');
     }
 
     public function showForgotPassword()
@@ -68,7 +78,7 @@ class AuthController extends Controller
         }
 
         $token = PasswordResetToken::generateToken($request->email);
-        return redirect()->route('show-reset-password', ['token' => $token, 'email' => $request->email]);
+        return redirect()->route('reset-password.show', ['token' => $token, 'email' => $request->email]);
     }
 
     public function showResetPassword(Request $request)
@@ -105,17 +115,15 @@ class AuthController extends Controller
 
         $resetRecord->deleteToken();
 
-        return redirect()->route('login')->with('success', 'Password berhasil direset!');
+        return redirect()->route('login.show')->with('success', 'Password berhasil direset!');
     }
     public function logout(Request $request)
 {
-    // Hapus session login
     Auth::logout();
 
-    // Regenerate session supaya lebih aman
     $request->session()->invalidate();
     $request->session()->regenerateToken();
 
-    return redirect()->route('login')->with('success', 'Berhasil logout!');
+    return redirect()->route('login.show')->with('success', 'Berhasil logout!');
 }
 }

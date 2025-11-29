@@ -47,7 +47,7 @@
             </form>
 
             <p class="mt-8 text-center text-sm text-gray-600">
-                Sudah memiliki akun? <a href="{{ route('login') }}"
+                Sudah memiliki akun? <a href="{{ route('login.show') }}"
                     class="text-blue-600 font-bold hover:underline">Masuk</a>
             </p>
         </div>

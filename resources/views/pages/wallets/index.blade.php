@@ -19,6 +19,7 @@
         <h3 class="text-lg font-bold text-gray-700">Daftar Dompet</h3>
         <button onclick="toggleModal('transferModal')"
             class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-lg shadow-blue-500/30 transition flex items-center gap-2">
+            <i class="fa-solid fa-arrow-right-arrow-left"></i>
             Transfer Saldo
         </button>
     </div>
