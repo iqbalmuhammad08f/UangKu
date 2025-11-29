@@ -34,7 +34,7 @@ class CategoryController extends Controller
 
         Category::create([
             'user_id' => Auth::id(),
-            'name' => $request->name,
+            'name' => strtolower($request->name),
             'type' => $request->type,
             'is_default' => false,
         ]);

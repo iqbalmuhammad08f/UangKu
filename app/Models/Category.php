@@ -18,20 +18,6 @@ class Category extends Model
         'is_default'
     ];
 
-    protected function name(): Attribute
-    {
-        return Attribute::make(
-            get: fn($value) => ucwords($value),
-            set: fn($value) => strtolower($value),
-        );
-    }
-
-    protected static function booted()
-    {
-        static::deleting(function ($category) {
-            $category->transactions()->delete();
-        });
-    }
 
     public function user()
     {

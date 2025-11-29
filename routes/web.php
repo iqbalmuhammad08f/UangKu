@@ -23,8 +23,14 @@ Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [dashboardController::class, 'index'])->name('dashboard.index');
-    Route::get('/transactions',[TransactionController::class,'index'])->name('transactions.index');
-    Route::get('/wallets',[WalletController::class,'index'])->name('wallets.index');
+    Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
+    Route::controller(WalletController::class)->group(function () {
+        Route::get('/wallets', 'index')->name('wallets.index');
+        Route::post('/wallets', 'store')->name('wallets.store');
+        Route::put('/wallets/{id}', 'update')->name('wallets.update');
+        Route::delete('/wallets/{id}', 'destroy')->name('wallets.destroy');
+        Route::post('/wallets/transfer', 'transferProcess')->name('wallets.transfer'); // Route Khusus Transfer
+    });
     Route::resource('categories', CategoryController::class)->except(['create', 'edit', 'show']);
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
