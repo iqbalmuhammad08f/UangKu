@@ -76,11 +76,11 @@
     </div>
 
     <!-- MODAL TRANSFER -->
-    <div id="transferModal" class="fixed inset-0 z-50 hidden justify-center items-center">
+    <div id="transferModal" class="fixed inset-0 z-50 hidden items-center justify-center">
         <div class="absolute inset-0 bg-opacity-50 backdrop-blur-sm transition-opacity"
             onclick="toggleModal('transferModal')"></div>
         <div class="relative flex min-h-full items-center justify-center p-4">
-            <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 animate-fade-in-up">
+            <div class="bg-white w-md rounded-2xl shadow-2xl p-6 animate-fade-in-up">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-lg font-bold text-gray-800">Transfer Antar Dompet</h3>
                     <button onclick="toggleModal('transferModal')" class="text-gray-400 hover:text-gray-600">
@@ -92,62 +92,30 @@
                     @csrf
                     <div class="flex items-center gap-4">
                         <div class="flex-1">
-                            <label class="block text-xs font-semibold text-gray-500 mb-2">Dari</label>
-
-                            <div class="relative">
-                                <button type="button" onclick="toggleDropdown(event, 'fromDropdown')"
-                                    class="w-40 bg-white border border-gray-300 px-3 py-2 rounded-lg text-sm flex justify-between items-center hover:border-gray-400 transition">
-                                    <span id="fromDropdownLabel" class="text-gray-700">Pilih dompet</span>
-                                    <i class="fa-solid fa-chevron-down text-gray-400 text-xs"></i>
-                                </button>
-
-                                <ul id="fromDropdown"
-                                    class="absolute w-full bg-white border border-gray-300 rounded-lg shadow-lg mt-2 hidden z-30 max-h-48 overflow-y-auto">
-                                    @foreach ($wallets as $wallet)
-                                        @if ($wallet->balance > 0)
-                                            <li onclick="selectDropdown('fromDropdown', '{{ $wallet->id }}', '{{ ucwords($wallet->name) }}')"
-                                                class="px-4 py-2 hover:bg-blue-50 cursor-pointer text-sm text-gray-700 transition flex"
-                                                data-value="{{ $wallet->id }}">
-                                                {{ ucwords($wallet->name) }}
-                                                <span class="text-xs text-gray-400 ml-2 flex-1 text-end">Rp
-                                                    {{ number_format($wallet->balance, 0, ',', '.') }}</span>
-                                            </li>
-                                        @endif
-                                    @endforeach
-                                </ul>
-                                <input type="hidden" id="fromDropdownValue" name="from_wallet_id" required>
-                            </div>
+                            <label class="block text-xs font-semibold text-gray-500 mb-1">Dari</label>
+                            <select name="from_wallet_id"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm bg-white">
+                                @foreach ($wallets as $wallet)
+                                    <!-- Hanya tampilkan jika saldo > 0 -->
+                                    @if ($wallet->balance > 0)
+                                        <option value="{{ $wallet->id }}">{{ $wallet->name }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
                         </div>
-                        <div class="pt-4 text-gray-400 self-end pb-1"><i class="fa-solid fa-arrow-right"></i></div>
+                        <div class="pt-4 text-gray-400"><i class="fa-solid fa-arrow-right"></i></div>
                         <div class="flex-1">
-                            <label class="block text-xs font-semibold text-gray-500 mb-2">Ke</label>
-
-                            <div class="relative">
-                                <button type="button" onclick="toggleDropdown(event, 'toDropdown')"
-                                    class="w-40 bg-white border border-gray-300 px-3 py-2 rounded-lg text-sm flex justify-between items-center hover:border-gray-400 transition ">
-                                    <span id="toDropdownLabel" class="text-gray-700">Pilih dompet</span>
-                                    <i class="fa-solid fa-chevron-down text-gray-400 text-xs"></i>
-                                </button>
-
-                                <ul id="toDropdown"
-                                    class="absolute w-full bg-white border border-gray-300 rounded-lg shadow-lg mt-2 hidden z-30 max-h-48 overflow-y-auto">
-                                    @foreach ($wallets as $wallet)
-                                        <li onclick="selectDropdown('toDropdown', '{{ $wallet->id }}', '{{ ucwords($wallet->name) }}')"
-                                            class="px-4 py-2 hover:bg-blue-50 cursor-pointer text-sm text-gray-700 transition flex justify-between"
-                                            data-value="{{ $wallet->id }}">
-                                            {{ ucwords($wallet->name) }}
-                                            <span class="text-xs text-gray-400 ml-2 flex-1 text-end">Rp
-                                                {{ number_format($wallet->balance, 0, ',', '.') }}</span>
-                                        </li>
-                                    @endforeach
-                                </ul>
-
-                                <input type="hidden" id="toDropdownValue" name="to_wallet_id" required>
-                            </div>
+                            <label class="block text-xs font-semibold text-gray-500 mb-1">Ke</label>
+                            <select name="to_wallet_id"
+                                class="w-full px-3 py-2 text-gray-800 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm bg-white">
+                                @foreach ($wallets as $wallet)
+                                    <option value="{{ $wallet->id }}">{{ $wallet->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 mb-2">Jumlah Transfer</label>
+                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Jumlah Transfer</label>
                         <div class="relative">
                             <span class="absolute left-3 top-2 text-gray-400">Rp</span>
                             <input type="number" name="amount"
@@ -155,11 +123,8 @@
                                 placeholder="0" min="1" required>
                         </div>
                     </div>
-                    <div id="errorText" class="mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm hidden">
-                        tes
-                    </div>
                     <button type="submit"
-                        class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition transform active:scale-95">
+                        class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-bold transition transform active:scale-95">
                         <i class="fa-solid fa-arrow-right-arrow-left mr-4"></i>
                         Proses Transfer
                     </button>
@@ -211,61 +176,12 @@
 
 @push('modals')
     <x-modal id="deleteModal" title="Hapus Dompet" method="DELETE" button="Hapus">
-        Menghapus dompet ini akan menghapus semua transaksi terkait.
+        Apakah anda yakin ingin menghapus dompet ini?
     </x-modal>
 @endpush
 
 @push('scripts')
     <script>
-        function toggleDropdown(event, id) {
-            event.preventDefault();
-            event.stopPropagation();
-
-            const dropdown = document.getElementById(id);
-            const allDropdowns = document.querySelectorAll('[id$="Dropdown"]');
-
-            // Tutup dropdown lain
-            allDropdowns.forEach(dd => {
-                if (dd.id !== id) {
-                    dd.classList.add('hidden');
-                }
-            });
-
-            // Toggle dropdown yang diklik
-            dropdown.classList.toggle('hidden');
-        }
-
-        // Select dropdown item
-        function selectDropdown(dropdownId, value, label) {
-            const labelElement = document.getElementById(dropdownId + "Label");
-            const valueElement = document.getElementById(dropdownId + "Value");
-
-            labelElement.textContent = label;
-            valueElement.value = value;
-
-            // Tutup dropdown
-            document.getElementById(dropdownId).classList.add("hidden");
-
-            validateTransfer();
-        }
-
-        function validateTransfer() {
-            const fromValue = document.getElementById('fromDropdownValue').value;
-            const toValue = document.getElementById('toDropdownValue').value;
-            const errorText = document.getElementById('errorText');
-
-            if (fromValue && toValue && fromValue === toValue) {
-                errorText.classList.remove('hidden');
-                errorText.textContent = 'Dompet asal dan tujuan tidak boleh sama!';
-
-                // reset tujuan
-                document.getElementById('toDropdownValue').value = '';
-                document.getElementById('toDropdownLabel').textContent = 'Pilih dompet';
-            } else {
-                errorText.classList.add('hidden');
-            }
-        }
-
         function openDeleteModal(id) {
             document.getElementById('form-deleteModal').action = `/wallets/${id}`;
             toggleModal('deleteModal');

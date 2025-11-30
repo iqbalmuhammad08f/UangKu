@@ -16,10 +16,6 @@
             <div class="relative z-10">
                 <p class="text-blue-100 text-sm font-medium mb-1">Total Saldo</p>
                 <h3 class="text-3xl font-bold">Rp 12.500.000</h3>
-                <div class="mt-4 flex items-center text-sm text-blue-200">
-                    <span class="bg-blue-500/30 px-2 py-1 rounded text-xs mr-2">+10%</span>
-                    dari bulan lalu
-                </div>
             </div>
             <i class="fa-solid fa-wallet absolute -bottom-4 -right-4 text-8xl text-white opacity-10"></i>
         </div>

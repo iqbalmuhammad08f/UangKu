@@ -159,7 +159,13 @@
         <div class="absolute inset-0 backdrop-blur-sm transition-opacity" onclick="toggleModal('editCategoryModal')"></div>
         <div class="relative flex min-h-full items-center justify-center p-4">
             <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6">
-                <h3 class="text-lg font-bold text-gray-800 mb-4">Edit Kategori</h3>
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">Edit Kategori</h3>
+                    <button type="button" onclick="toggleModal('editCategoryModal')"
+                        class="text-gray-400 hover:text-gray-600 self-start">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+                </div>
                 <form id="editForm" method="POST">
                     @csrf
                     @method('PUT')
@@ -168,7 +174,8 @@
                         <input type="text" name="name" id="editName"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none">
                     </div>
-                    <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg">Simpan Perubahan</button>
+                    <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg"><i
+                            class="fa-solid fa-floppy-disk mr-2"></i>Simpan Perubahan</button>
                 </form>
             </div>
         </div>
