@@ -21,7 +21,7 @@
 
 @section('content.layout')
 
-    <div class="flex justify-center mb-8">
+    <div class="flex justify-center mb-8 pb-6">
         <div class="bg-white p-1 rounded-xl shadow-sm border border-gray-200 flex gap-2">
             <button id="btn-expense" onclick="switchTab('expense')"
                 class="px-6 py-2 rounded-lg text-sm font-medium transition-all tab-active border border-transparent shadow-sm">
@@ -126,7 +126,7 @@
                     @csrf
 
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-2">Jenis Transaksi</label>
+                        <label class="block text-xs font-semibold text-gray-500 mb-2">Jenis Transaksi</label>
                         <div class="flex gap-4">
                             <label class="flex items-center gap-2 cursor-pointer">
                                 <input type="radio" name="type" value="expense" class="w-4 h-4 text-blue-600" checked>
@@ -139,7 +139,7 @@
                         </div>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Nama Kategori</label>
+                        <label class="block text-xs font-semibold text-gray-500 mb-1">Nama Kategori</label>
                         <input type="text" name="name" required
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
                             placeholder="Contoh: Investasi">
@@ -170,7 +170,7 @@
                     @csrf
                     @method('PUT')
                     <div class="mb-4">
-                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Nama Kategori</label>
+                        <label class="block text-xs font-semibold text-gray-500 mb-1">Nama Kategori</label>
                         <input type="text" name="name" id="editName"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none">
                     </div>

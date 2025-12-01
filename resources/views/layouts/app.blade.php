@@ -20,7 +20,7 @@
             @include('partials.sidebar')
             <div class="flex-1 flex flex-col overflow-hidden relative">
                 @include('partials.navbar')
-                <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6">
+                <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6 pb-0">
                     @yield('content.layout')
                 </main>
             </div>
