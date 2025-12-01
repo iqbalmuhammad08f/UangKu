@@ -20,7 +20,7 @@
     </span>
 
     <!-- Tombol Close -->
-    <button onclick="closeToast('{{ $id }}')" class="ml-2 text-black text-lg leading-none">
+    <button onclick="closeToast('{{ $id }}')" class="text-gray-400 hover:text-gray-600 transition">
         <i class="fa-solid fa-xmark"></i>
     </button>
 </div>

@@ -12,6 +12,12 @@
 @endsection
 
 @section('content.layout')
+    @if (session('success'))
+        <x-toast type="success" message="{{ session('success') }}" />
+    @endif
+    @if (session('error'))
+        <x-toast type="error" message="{{ session('error') }}" />
+    @endif
     <!-- Card Statistik -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div
@@ -52,8 +58,7 @@
                 </p>
                 <form method="GET" action="{{ route('dashboard.index') }}">
                     <input type="hidden" name="income_range" value="{{ $incomeRange }}">
-                    <select name="expense_range" onchange="this.form.submit()"
-                        class="text-gray-500 text-sm font-medium">
+                    <select name="expense_range" onchange="this.form.submit()" class="text-gray-500 text-sm font-medium">
                         <option value="month" {{ $expenseRange === 'month' ? 'selected' : '' }}>Bulan Ini</option>
                         <option value="all" {{ $expenseRange === 'all' ? 'selected' : '' }}>Semua</option>
                     </select>
@@ -66,28 +71,6 @@
                     <i class="fa-solid fa-arrow-trend-down text-2xl"></i>
                 </div>
             </div>
-            {{-- <div class="flex justify-between items-start">
-                <div>
-                    <p class="text-gray-500 text-sm font-medium">
-                        {{ $expenseRange === 'all' ? 'Pengeluaran (Semua)' : 'Pengeluaran Bulan Ini' }}
-                    </p>
-                    <h3 class="text-2xl font-bold text-gray-800 mt-2">Rp {{ number_format($expenseThisMonth, 0, ',', '.') }}
-                    </h3>
-                </div>
-                <div class="flex items-center gap-2">
-                    <form method="GET" action="{{ route('dashboard.index') }}">
-                        <input type="hidden" name="income_range" value="{{ $incomeRange }}">
-                        <select name="expense_range" onchange="this.form.submit()"
-                            class="bg-red-50 border border-red-200 text-red-700 text-sm rounded-md p-2">
-                            <option value="month" {{ $expenseRange === 'month' ? 'selected' : '' }}>Bulan Ini</option>
-                            <option value="all" {{ $expenseRange === 'all' ? 'selected' : '' }}>Semua</option>
-                        </select>
-                    </form>
-                    <div class="p-3 bg-red-100 text-red-600 rounded-lg">
-                        <i class="fa-solid fa-arrow-trend-down"></i>
-                    </div>
-                </div>
-            </div> --}}
         </div>
     </div>
 
@@ -186,6 +169,7 @@
             </div>
         </div>
     </div>
+
 @endsection
 
 @push('modals')

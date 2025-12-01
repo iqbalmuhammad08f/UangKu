@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\dashboardController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Route;
@@ -27,10 +28,13 @@ Route::middleware('auth')->group(function () {
     // TRANSAKSI ROUTES
     Route::controller(TransactionController::class)->group(function () {
         Route::get('/transactions', 'index')->name('transactions.index');
+        Route::get('/transactions/{id}/edit', 'edit')->name('transactions.edit');
+        Route::put('/transactions/{id}', 'update')->name('transactions.update');
         Route::post('/transactions', 'store')->name('transactions.store');
         Route::delete('/transactions/{id}', 'destroy')->name('transactions.destroy');
     });
-    Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
+
+    // WALLET ROUTES
     Route::controller(WalletController::class)->group(function () {
         Route::get('/wallets', 'index')->name('wallets.index');
         Route::post('/wallets', 'store')->name('wallets.store');
@@ -38,6 +42,22 @@ Route::middleware('auth')->group(function () {
         Route::delete('/wallets/{id}', 'destroy')->name('wallets.destroy');
         Route::post('/wallets/transfer', 'transferProcess')->name('wallets.transfer');
     });
-    Route::resource('categories', CategoryController::class)->except(['create', 'edit', 'show']);
+
+    // CATEGORY ROUTES
+    Route::controller(CategoryController::class)->group(function () {
+        Route::get('/categories', 'index')->name('categories.index');
+        Route::post('/categories', 'store')->name('categories.store');
+        Route::put('/categories/{id}', 'update')->name('categories.update');
+        Route::delete('/categories/{id}', 'destroy')->name('categories.destroy');
+    });
+
+    // PROFILE ROUTES
+    Route::controller(ProfileController::class)->group(function () {
+        Route::get('/profile', 'index')->name('profile.index');
+        Route::put('/profile', 'update')->name('profile.update');
+        Route::put('/profile/password', 'updatePassword')->name('profile.password.update');
+        Route::delete('/profile', 'destroy')->name('profile.destroy');
+    });
+
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

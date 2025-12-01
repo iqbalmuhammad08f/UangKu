@@ -94,4 +94,61 @@ class TransactionController extends Controller
 
         return redirect()->back()->with('success', 'Transaksi berhasil dihapus.');
     }
+
+    public function edit($id)
+    {
+        $userId = Auth::id();
+
+        $transaction = Transaction::where('user_id', $userId)->with(['wallet', 'category'])->findOrFail($id);
+        $wallets = Wallet::where('user_id', $userId)->get();
+        $categories = Category::where('user_id', $userId)->get();
+
+        return view('pages.transactions.edit', compact('transaction', 'wallets', 'categories'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'amount' => 'required|numeric|min:1',
+            'type' => 'required|in:income,expense',
+            'category_id' => 'required|exists:categories,id',
+            'wallet_id' => 'required|exists:wallets,id',
+            'date' => 'required|date',
+            'description' => 'nullable|string|max:255',
+        ]);
+
+        $userId = Auth::id();
+
+        DB::transaction(function () use ($request, $id, $userId) {
+            $transaction = Transaction::where('user_id', $userId)->findOrFail($id);
+
+            // Reverse previous effect on old wallet
+            $oldWallet = Wallet::withTrashed()->findOrFail($transaction->wallet_id);
+            if ($transaction->type == 'income') {
+                $oldWallet->decrement('balance', $transaction->amount);
+            } else {
+                $oldWallet->increment('balance', $transaction->amount);
+            }
+
+            // Apply new effect on (possibly new) wallet
+            $newWallet = Wallet::where('user_id', $userId)->findOrFail($request->wallet_id);
+            if ($request->type == 'income') {
+                $newWallet->increment('balance', $request->amount);
+            } else {
+                $newWallet->decrement('balance', $request->amount);
+            }
+
+            // Save transaction
+            $transaction->update([
+                'wallet_id' => $request->wallet_id,
+                'category_id' => $request->category_id,
+                'amount' => $request->amount,
+                'type' => $request->type,
+                'description' => $request->description,
+                'date' => $request->date,
+            ]);
+        });
+
+        return redirect()->route('transactions.index')->with('success', 'Transaksi berhasil diperbarui.');
+    }
 }

@@ -7,12 +7,10 @@
 
     <!-- Flash Message -->
     @if (session('success'))
-        <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
-            {{ session('success') }}</div>
+        <x-toast type="success" message="{{ session('success') }}" />
     @endif
     @if (session('error'))
-        <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">{{ session('error') }}
-        </div>
+        <x-toast type="error" message="{{ session('error') }}" />
     @endif
 
     <!-- Total Asset Card -->
@@ -152,10 +150,7 @@
                     <form action="{{ route('wallets.store') }}" method="POST" class="space-y-5">
                         @csrf
                         <div>
-                            <label class="block text-xs font-semibold text-gray-500 mb-1">Nama Dompet</label>
-                            <input type="text" name="name"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                                placeholder="Misal: Bank BRI" required>
+                            <x-input name="name" type="text" label="Nama Dompet" placeholder="Misal: Bank BRI" required />
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-gray-500 mb-1">Saldo Awal</label>

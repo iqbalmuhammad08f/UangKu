@@ -21,9 +21,12 @@
 
     <!-- Notifikasi -->
     @if (session('success'))
-        <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
-            {{ session('success') }}</div>
+        <x-toast type="success" message="{{ session('success') }}" />
     @endif
+    @if (session('error'))
+        <x-toast type="error" message="{{ session('error') }}" />
+    @endif
+
 
     <!-- SECTION FILTER -->
     <div class="pb-6">
@@ -90,7 +93,7 @@
                         <tr class="bg-gray-50 border-b border-gray-200 text-xs uppercase text-gray-500 font-semibold">
                             <th class="p-4">Tanggal</th>
                             <th class="p-4">Kategori & Deskripsi</th>
-                            <th class="p-4">Dompet</th>
+                            <th class="p-4 pl-0">Dompet</th>
                             <th class="p-4 text-right">Jumlah</th>
                             <th class="p-4 text-center">Aksi</th>
                         </tr>
@@ -103,20 +106,21 @@
                                 </td>
                                 <td class="p-4">
                                     <div class="flex items-center gap-3">
+                                        <div
+                                            class="w-8 h-8 rounded-lg flex items-center justify-center text-xs
+                                            {{ $trx->type == 'income' ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600' }}">
+                                            <i class="fa-solid {{ $trx->category->icon ?? 'fa-circle' }}"></i>
+                                        </div>
                                         <div>
-                                            <p class="font-semibold text-gray-600">
+                                            <p class="font-medium text-gray-800">
                                                 {{ ucfirst($trx->category ? $trx->category->name : 'Transfer') }}
                                             </p>
-                                            <p class="text-xs text-gray-400">{{ Str::limit($trx->description ?? '-', 20) }}</p>
+                                            <p class="text-xs text-gray-400">
+                                                {{ ucfirst(Str::limit($trx->description ?? '-', 20)) }}</p>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="p-4">
-                                    <span
-                                        class="px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600 border border-gray-200 whitespace-nowrap">
-                                        {{ ucwords($trx->wallet->name) ?? 'Terhapus' }}
-                                    </span>
-                                </td>
+                                <td class="py-3 text-gray-500">{{ ucwords($trx->wallet->name) }}</td>
                                 <td
                                     class="p-4 text-right font-bold whitespace-nowrap {{ $trx->type == 'income' ? 'text-green-600' : 'text-red-500' }}">
                                     {{ $trx->type == 'income' ? '+' : '-' }} Rp
@@ -124,8 +128,17 @@
                                 </td>
                                 <td class="p-4 text-center">
                                     <div class="flex items-center justify-center gap-2">
+                                        <button class="text-blue-500 hover:text-blue-700 transition" title="Edit Transaksi"
+                                            onclick="openEditModal(this)" data-id="{{ $trx->id }}"
+                                            data-amount="{{ $trx->amount }}"
+                                            data-date="{{ $trx->date->format('Y-m-d') }}" data-type="{{ $trx->type }}"
+                                            data-description="{{ $trx->description }}"
+                                            data-wallet-id="{{ $trx->wallet_id }}"
+                                            data-category-id="{{ $trx->category_id }}">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </button>
                                         <button onclick="openDeleteModal('{{ $trx->id }}')"
-                                            class="text-red-500 hover:text-red-700 transition" title="Hapus Dompet">
+                                            class="text-red-500 hover:text-red-700 transition" title="Hapus Transaksi">
                                             <i class="fa-solid fa-trash"></i>
                                         </button>
                                     </div>
@@ -157,9 +170,10 @@
 
 @push('modals')
     <x-modal-add-transaction :categories="$categories" :wallets="$wallets" />
-    <x-modal id="deleteModal" title="Hapus Dompet" method="DELETE" button="Hapus">
-        Apakah anda yakin ingin manghapus transaksi ini?
+    <x-modal id="deleteModal" title="Hapus Transaksi" method="DELETE" button="Hapus">
+        Apakah anda yakin ingin menghapus transaksi ini?
     </x-modal>
+    <x-modal-edit-transaction :categories="$categories" :wallets="$wallets" />
 @endpush
 
 @push('scripts')
@@ -167,6 +181,35 @@
         function openDeleteModal(id) {
             document.getElementById('form-deleteModal').action = `/transactions/${id}`;
             toggleModal('deleteModal');
+        }
+
+        function openEditModal(el) {
+            const id = el.getAttribute('data-id');
+            const amount = el.getAttribute('data-amount');
+            const date = el.getAttribute('data-date');
+            const type = el.getAttribute('data-type');
+            const description = el.getAttribute('data-description');
+            const walletId = el.getAttribute('data-wallet-id');
+            const categoryId = el.getAttribute('data-category-id');
+
+            // Set form action
+            document.getElementById('form-editTransactionModal').action = `/transactions/${id}`;
+
+            // Set values on modal
+            document.getElementById('edit_amount').value = amount;
+            document.getElementById('edit_date').value = date;
+            document.getElementById('edit_description').value = description || '';
+            document.getElementById('edit_wallet_select').value = walletId;
+
+            // Type radio
+            const radios = document.querySelectorAll('#editTransactionModal input[name="type"]');
+            radios.forEach(r => r.checked = (r.value === type));
+
+            // Filter categories to show only those matching type, then set the category id
+            window.filterCategoriesForEdit(type);
+            document.getElementById('edit_category_select').value = categoryId;
+
+            toggleModal('editTransactionModal');
         }
     </script>
 @endpush

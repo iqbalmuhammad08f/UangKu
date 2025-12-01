@@ -20,7 +20,12 @@
 @endpush
 
 @section('content.layout')
-
+    @if (session('success'))
+        <x-toast type="success" message="{{ session('success') }}" />
+    @endif
+    @if (session('error'))
+        <x-toast type="error" message="{{ session('error') }}" />
+    @endif
     <div class="flex justify-center mb-8 pb-6">
         <div class="bg-white p-1 rounded-xl shadow-sm border border-gray-200 flex gap-2">
             <button id="btn-expense" onclick="switchTab('expense')"
@@ -38,13 +43,6 @@
             </button>
         </div>
     </div>
-
-    @if (session('success'))
-        <x-toast type="success" message="{{ session('success') }}" />
-    @endif
-    @if (session('error'))
-        <x-toast type="error" message="{{ session('error') }}" />
-    @endif
 
     <div id="view-expense" class="block animate-fade-in space-y-8">
         <div>
@@ -159,7 +157,7 @@
         <div class="absolute inset-0 backdrop-blur-sm transition-opacity" onclick="toggleModal('editCategoryModal')"></div>
         <div class="relative flex min-h-full items-center justify-center p-4">
             <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6">
-                <div class="flex justify-between items-center mb-6">
+                <div class="flex justify-between items-center mb-3">
                     <h3 class="text-lg font-bold text-gray-800 mb-4">Edit Kategori</h3>
                     <button type="button" onclick="toggleModal('editCategoryModal')"
                         class="text-gray-400 hover:text-gray-600 self-start">

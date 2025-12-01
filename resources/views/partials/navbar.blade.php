@@ -10,10 +10,15 @@
     <div class="flex items-center gap-4">
         @yield('header_actions')
 
-        <div class="flex items-center gap-2 cursor-pointer border-l pl-4 border-gray-200">
+        <a href="{{ route('profile.index') }}" class="flex items-center gap-2 cursor-pointer border-l pl-4 border-gray-200 hover:opacity-80 transition">
             <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden border border-gray-300">
-                <i class="fa-solid fa-user text-gray-500"></i>
+                <img src="{{ auth()->user()->avatar_url }}"
+                     alt="{{ auth()->user()->name }}"
+                     class="w-full h-full object-cover">
             </div>
-        </div>
+            <span class="text-sm font-medium text-gray-700 hidden lg:block">
+                {{ auth()->user()->name }}
+            </span>
+        </a>
     </div>
 </header>
