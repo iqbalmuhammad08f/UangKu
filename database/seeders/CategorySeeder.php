@@ -10,7 +10,7 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         // Kategori Global Pengeluaran
-        $expenses = ['makan & minum', 'transportasi', 'belanja', 'tagihan', 'hiburan'];
+        $expenses = ['makan', 'belanja', 'tagihan'];
         foreach ($expenses as $name) {
             Category::create([
                 'user_id' => null,
@@ -21,7 +21,7 @@ class CategorySeeder extends Seeder
         }
 
         // Kategori Global Pemasukan
-        $incomes = ['gaji pokok', 'bonus', 'investasi'];
+        $incomes = ['gaji'];
         foreach ($incomes as $name) {
             Category::create([
                 'user_id' => null,

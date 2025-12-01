@@ -3,19 +3,6 @@
 @section('title', 'Riwayat Transaksi - DompetKu')
 @section('header_title', 'Semua Transaksi')
 
-@push('styles')
-    <style>
-        /* Custom Scrollbar untuk Tabel */
-        .scrollbar-hide::-webkit-scrollbar {
-            display: none;
-        }
-
-        .scrollbar-hide {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-    </style>
-@endpush
 
 @section('content.layout')
 

@@ -19,12 +19,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             CategorySeeder::class,
+            DummyUserSeeder::class,
         ]);
-        // DB::table('users')->insert([
-        //     'name' => Str::random(10),
-        //     'email' => str('iqbalnurhakimy83@gmail.com'),
-        //     'password' => Hash::make('123456'),
-        // ]);
-
     }
 }

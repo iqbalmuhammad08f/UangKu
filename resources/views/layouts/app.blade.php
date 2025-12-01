@@ -29,7 +29,7 @@
     @stack('modals')
 
     <script>
-        function toggleModal(modalID){
+        function toggleModal(modalID) {
             const modal = document.getElementById(modalID);
             const isHidden = modal.classList.contains('hidden');
 
@@ -41,6 +41,42 @@
                 modal.classList.remove('flex');
             }
         }
+
+        function toggleSidebar(sidebarID) {
+            const sidebar = document.getElementById(sidebarID);
+            const backdrop = document.getElementById('mobileSidebarBackdrop');
+            if (!sidebar) return;
+
+            const isHidden = sidebar.classList.contains('-translate-x-full');
+            if (isHidden) {
+                sidebar.classList.remove('-translate-x-full');
+                sidebar.classList.add('translate-x-0');
+                if (backdrop) {
+                    backdrop.classList.remove('hidden');
+                    backdrop.classList.add('block');
+                }
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                sidebar.classList.remove('translate-x-0');
+                if (backdrop) {
+                    backdrop.classList.add('hidden');
+                    backdrop.classList.remove('block');
+                }
+            }
+            const toggleButton = document.querySelector(`[aria-controls="${sidebarID}"]`);
+            if (toggleButton) {
+                toggleButton.setAttribute('aria-expanded', String(!isHidden));
+            }
+        }
+        // Close mobile sidebar on Escape key
+        document.addEventListener('keyup', function(e) {
+            if (e.key === 'Escape') {
+                const mobile = document.getElementById('mobileSidebar');
+                if (mobile && !mobile.classList.contains('-translate-x-full')) {
+                    toggleSidebar('mobileSidebar');
+                }
+            }
+        });
     </script>
 
     @stack('scripts')
