@@ -1,59 +1,280 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+## UangKu - Aplikasi Manajemen Dompet Digital
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**UangKu** adalah aplikasi web manajemen dompet digital (digital wallet) yang dibangun menggunakan **Laravel 12** dan **Tailwind CSS**. Aplikasi ini dirancang untuk membantu pengguna dalam mengelola keuangan pribadi mereka secara digital dan efisien.
 
-## About Laravel
+### Tujuan Project
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Aplikasi ini bertujuan untuk menyediakan platform yang user-friendly bagi pengguna untuk:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+-   Mengelola saldo dompet mereka
+-   Mencatat setiap transaksi (pemasukan dan pengeluaran)
+-   Mengorganisir transaksi berdasarkan kategori
+-   Melacak riwayat keuangan mereka
+-   Menjaga keamanan data finansial dengan sistem autentikasi yang kuat
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## ✨ Fitur Utama
 
-## Learning Laravel
+### 1. **Autentikasi Pengguna**
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+-   Registrasi akun baru
+-   Login dengan email dan password
+-   Fitur lupa password dengan reset token
+-   Keamanan password dengan enkripsi
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 2. **Manajemen Dompet (Wallet)**
 
-## Laravel Sponsors
+-   Membuat dan mengelola dompet digital
+-   Melihat saldo terkini
+-   Melacak perubahan saldo dari transaksi
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 3. **Manajemen Transaksi**
 
-### Premium Partners
+-   Menambah transaksi baru (pemasukan/pengeluaran)
+-   Melihat riwayat transaksi lengkap
+-   Update dan hapus transaksi
+-   Filter berdasarkan kategori
+-   Melihat detail transaksi
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 4. **Kategori Transaksi**
 
-## Contributing
+-   Sistem kategorisasi transaksi yang fleksibel
+-   Kategori yang dapat dikustomisasi
+-   Membantu pengguna mengorganisir transaksi lebih baik
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 5. **Dashboard**
 
-## Code of Conduct
+-   Ringkasan informasi keuangan
+-   Statistik transaksi
+-   Interface yang intuitif dan responsif
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 6. **Profil Pengguna**
 
-## Security Vulnerabilities
+-   Mengelola informasi profil
+-   Mengubah password
+-   Pengaturan akun
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 💻 Persyaratan Sistem
 
-## License
+Sebelum menginstal project ini, pastikan sistem Anda memiliki:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Backend Requirements
+
+-   **PHP** >= 8.2
+-   **Composer** (PHP Package Manager)
+-   **Laravel Framework** 12.0+
+
+### Frontend Requirements
+
+-   **Node.js** >= 16.x
+-   **npm** atau **yarn**
+
+### Database
+
+-   **MySQL** 8.0+ atau **SQLite**
+
+### Web Server
+
+-   **Apache** dengan mod_rewrite
+-   atau **Nginx**
+
+## 📦 Instalasi
+
+Ikuti langkah-langkah di bawah ini untuk menginstal project:
+
+### Step 1: Clone Repository
+
+```bash
+git clone https://github.com/iqbalmuhammad08f/UangKu.git
+cd projek-akhir-pweb
+```
+
+### Step 2: Install Dependency PHP
+
+```bash
+composer install
+```
+
+### Step 3: Setup Environment File
+
+Buat file `.env` dengan menyalin dari file `.env.example`:
+
+```bash
+cp .env.example .env
+```
+
+### Step 4: Generate Application Key
+
+```bash
+php artisan key:generate
+```
+
+### Step 5: Konfigurasi Database
+
+Edit file `.env` dan sesuaikan konfigurasi database Anda:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=uangku
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+### Step 6: Jalankan Migration Database
+
+```bash
+php artisan migrate
+```
+
+### Step 7: Jalankan Seeder (Opsional)
+
+Untuk mengisi database dengan data dummy:
+
+```bash
+php artisan db:seed
+```
+
+Atau jalankan seeder spesifik:
+
+```bash
+php artisan db:seed --class=CategorySeeder
+php artisan db:seed --class=DummyUserSeeder
+```
+
+### Step 8: Install Dependency NPM
+
+```bash
+npm install
+```
+
+## ⚙️ Konfigurasi
+
+### Konfigurasi Aplikasi
+
+Edit file `config/app.php` untuk mengatur:
+
+-   Nama aplikasi
+-   Timezone
+-   Locale (bahasa)
+
+### Konfigurasi Database
+
+Pastikan file `.env` sudah dikonfigurasi dengan benar sesuai dengan database lokal Anda.
+
+### Konfigurasi Mail (Untuk Reset Password)
+
+Jika ingin menggunakan fitur reset password dengan email, konfigurasi mail di `.env`:
+
+```env
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=your_username
+MAIL_PASSWORD=your_password
+MAIL_FROM_ADDRESS=noreply@uangku.com
+MAIL_FROM_NAME="UangKu"
+```
+
+## 🚀 Menjalankan Project
+
+### Cara 1: Development Mode (Recommended)
+
+Jalankan semua service sekaligus (server, queue, logs, dan Vite):
+
+```bash
+composer run dev
+```
+
+Perintah ini akan menjalankan:
+
+-   Laravel Development Server (http://localhost:8000)
+-   Queue Listener
+-   Log Pail
+-   Vite Development Server (untuk hot module reloading)
+
+### Cara 2: Manual - Jalankan Setiap Service Terpisah
+
+**Terminal 1 - Laravel Server:**
+
+```bash
+php artisan serve
+```
+
+**Terminal 2 - Frontend Development:**
+
+```bash
+npm run dev
+```
+
+**Terminal 3 - Queue Listener (Opsional):**
+
+```bash
+php artisan queue:listen --tries=1
+```
+
+**Terminal 4 - View Logs (Opsional):**
+
+```bash
+php artisan pail --timeout=0
+```
+
+### Akses Aplikasi
+
+Buka browser dan akses:
+
+```
+http://localhost:8000
+```
+
+### Kompilasi Production
+
+Untuk membuat build production:
+
+```bash
+npm run build
+```
+
+## 📁 Struktur Project
+
+```
+projek-akhir-pweb/
+├── app/
+│   ├── Http/
+│   │   └── Controllers/        # Controller untuk handle logic
+│   └── Models/                 # Model database (User, Wallet, Transaction, Category)
+├── database/
+│   ├── migrations/            # File migrasi database
+│   ├── seeders/               # File seeder untuk data dummy
+│   └── factories/             # Factory untuk testing
+├── resources/
+│   ├── css/                   # File CSS (Tailwind)
+│   ├── js/                    # File JavaScript
+│   └── views/                 # Blade template files
+├── routes/
+│   └── web.php                # Routing aplikasi
+├── config/                    # File konfigurasi
+├── public/                    # File publik (assets, index.php)
+├── storage/                   # Folder untuk menyimpan logs dan cache
+├── tests/                     # File testing
+├── composer.json              # PHP dependencies
+├── package.json               # Node dependencies
+└── .env                       # Environment variables (jangan commit)
+```
+
+## 📝 Catatan Penting
+
+-   File `.env` jangan di-commit ke repository
+-   Selalu jalankan `composer install` dan `npm install` setelah pull code terbaru
+-   Gunakan `php artisan migrate` untuk update database schema
+-   Untuk development, gunakan command `composer run dev`
+
+## 👤 Author
+
+Dikembangkan oleh: **iqbalmuhammad08f**
+
+## 📄 Lisensi
+
+Project ini dilisensikan di bawah [MIT license](https://opensource.org/licenses/MIT) - lihat file LICENSE untuk detail.
+
+---
