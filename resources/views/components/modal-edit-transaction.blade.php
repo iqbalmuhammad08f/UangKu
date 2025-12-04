@@ -111,7 +111,7 @@
         const options = select.querySelectorAll('option');
 
         options.forEach(option => {
-            if (option.value === "") return; // skip placeholder
+            if (option.value === "") return;
             const catType = option.getAttribute('data-type');
             if (catType === type) {
                 option.style.display = 'block';

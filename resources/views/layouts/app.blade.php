@@ -68,7 +68,6 @@
                 toggleButton.setAttribute('aria-expanded', String(!isHidden));
             }
         }
-        // Close mobile sidebar on Escape key
         document.addEventListener('keyup', function(e) {
             if (e.key === 'Escape') {
                 const mobile = document.getElementById('mobileSidebar');

@@ -64,7 +64,6 @@ class CategoryController extends Controller
 
     public function destroy(string $id)
     {
-        // User bisa menghapus kategori apapun ASALKAN itu miliknya (termasuk hasil copy dari global)
         $category = Category::where('user_id', Auth::id())->findOrFail($id);
 
         $category->delete();

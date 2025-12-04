@@ -36,7 +36,6 @@
 
 </aside>
 
-<!-- Mobile Sidebar (hidden by default, toggled via JS) -->
 <div id="mobileSidebarBackdrop" class="fixed inset-0 bg-opacity-30 z-40 hidden md:hidden"
     onclick="toggleSidebar('mobileSidebar')"></div>
 

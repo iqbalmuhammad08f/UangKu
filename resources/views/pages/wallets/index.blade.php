@@ -5,7 +5,6 @@
 
 @section('content.layout')
 
-    <!-- Flash Message -->
     @if (session('success'))
         <x-toast type="success" message="{{ session('success') }}" />
     @endif
@@ -13,7 +12,6 @@
         <x-toast type="error" message="{{ session('error') }}" />
     @endif
 
-    <!-- Total Asset Card -->
     <div class="pb-6">
         <div
             class="bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl p-8 text-white shadow-xl mb-8 relative overflow-hidden">
@@ -27,11 +25,9 @@
             <div class="absolute -top-24 -right-24 w-64 h-64 bg-blue-500 rounded-full opacity-10 blur-3xl"></div>
         </div>
 
-        <!-- Action Bar -->
         <div class="flex justify-between items-center mb-6">
             <h3 class="text-lg font-bold text-gray-700">Daftar Dompet</h3>
 
-            <!-- Hanya munculkan tombol transfer jika punya lebih dari 1 dompet -->
             @if ($wallets->count() > 1)
                 <button onclick="toggleModal('transferModal')"
                     class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-lg shadow-blue-500/30 transition flex items-center gap-2">
@@ -41,7 +37,6 @@
             @endif
         </div>
 
-        <!-- Grid Dompet -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach ($wallets as $wallet)
                 <div
@@ -65,7 +60,6 @@
                 </div>
             @endforeach
 
-            <!-- Tombol Tambah Card -->
             <button onclick="toggleModal('addWalletModal')"
                 class="border-2 border-dashed border-gray-300 rounded-xl p-6 flex flex-col items-center justify-center text-gray-400 hover:border-blue-500 hover:text-blue-500 transition h-full min-h-[200px] group bg-gray-50 hover:bg-blue-50/50">
                 <div
@@ -76,7 +70,6 @@
             </button>
         </div>
 
-        <!-- MODAL TRANSFER -->
         <div id="transferModal" class="fixed inset-0 z-50 hidden items-center justify-center">
             <div class="absolute inset-0 bg-opacity-50 backdrop-blur-sm transition-opacity"
                 onclick="toggleModal('transferModal')"></div>

@@ -7,7 +7,6 @@
 @section('content.layout')
 <div class="max-w-4xl mx-auto space-y-6 pb-6">
 
-    {{-- Alert Messages --}}
     @if (session('success'))
         <x-toast type="success" message="{{ session('success') }}" />
     @endif
@@ -16,7 +15,6 @@
         <x-toast type="warning" message="{{ session('warning') }}" />
     @endif
 
-    {{-- Form Update Profil --}}
     <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data"
           class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 md:p-8">
         @csrf
@@ -24,7 +22,6 @@
 
         <div class="flex flex-col md:flex-row gap-8">
 
-            {{-- Avatar Section --}}
             <div class="flex flex-col items-center space-y-4 md:w-1/3 border-b md:border-b-0 md:border-r border-gray-100 pb-6 md:pb-0 md:pr-6">
                 <div class="relative group">
                     <div class="w-32 h-32 rounded-full border-4 border-gray-100 overflow-hidden shadow-inner">
@@ -50,11 +47,9 @@
                 @enderror
             </div>
 
-            {{-- Form Fields --}}
             <div class="flex-1 space-y-4">
                 <h3 class="text-lg font-bold text-gray-800 border-b border-gray-100 pb-2 mb-4">Informasi Pribadi</h3>
 
-                {{-- Nama Lengkap --}}
                 <div>
                     <div class="relative">
                         <x-input name="name" type="text" label="Nama Lengkap" icon="fa-solid fa-user"
@@ -67,7 +62,6 @@
                     @enderror
                 </div>
 
-                {{-- Email --}}
                 <div>
                     <div class="relative">
                         <x-input name="email" type="email" label="Alamat Email" icon="fa-solid fa-envelope"
@@ -89,7 +83,6 @@
         </div>
     </form>
 
-    {{-- Form Ganti Password --}}
     <form action="{{ route('profile.password.update') }}" method="POST"
           class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 md:p-8">
         @csrf
@@ -129,7 +122,6 @@
         </div>
     </form>
 
-    {{-- Delete Account Section --}}
     <div class="bg-red-50 rounded-xl border border-red-200 p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div class="flex gap-4">
             <div class="w-10 h-10 rounded-full bg-red-100 text-red-600 flex items-center justify-center shrink-0">
@@ -150,7 +142,6 @@
 
 </div>
 
-{{-- Modal Delete Account --}}
 <div id="deleteAccountModal" class="fixed inset-0 bg-opacity-50 backdrop-blur-sm hidden items-center justify-center z-50">
     <div class="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 p-6">
         <div class="flex items-start gap-4 mb-4">
@@ -193,7 +184,6 @@
 
 @push('scripts')
 <script>
-    // Preview image sebelum upload
     document.getElementById('fileInput').addEventListener('change', function(e) {
         const file = e.target.files[0];
         if (file) {

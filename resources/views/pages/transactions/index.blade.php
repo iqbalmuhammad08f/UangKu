@@ -6,7 +6,6 @@
 
 @section('content.layout')
 
-    <!-- Notifikasi -->
     @if (session('success'))
         <x-toast type="success" message="{{ session('success') }}" />
     @endif
@@ -15,18 +14,15 @@
     @endif
 
 
-    <!-- SECTION FILTER -->
     <div class="pb-6">
         <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 mb-6 pb-6">
             <form method="GET" action="{{ route('transactions.index') }}"
                 class="flex flex-col md:flex-row justify-between gap-4">
 
                 <div class="flex flex-col md:flex-row gap-4 w-full">
-                    <!-- Filter Bulan -->
                     <input type="month" name="filter_date" value="{{ request('filter_date') }}"
                         class="w-full md:w-auto px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm text-gray-600">
 
-                    <!-- Filter Kategori -->
                     <select name="filter_category_id"
                         class="w-full md:w-auto px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm text-gray-600 bg-white">
                         <option value="">Semua Kategori</option>
@@ -38,7 +34,6 @@
                         @endforeach
                     </select>
 
-                    <!-- Filter Dompet -->
                     <select name="filter_wallet_id"
                         class="w-full md:w-auto px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm text-gray-600 bg-white">
                         <option value="">Semua Dompet</option>
@@ -50,20 +45,17 @@
                         @endforeach
                     </select>
 
-                    <!-- Tombol Cari -->
                     <button type="submit"
                         class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
                         <i class="fa-solid fa-filter mr-1"></i> Filter
                     </button>
 
-                    <!-- Tombol Reset (Optional) -->
                     <a href="{{ route('transactions.index') }}"
                         class="bg-gray-200 hover:bg-gray-300 text-gray-600 px-4 py-2 rounded-lg text-sm font-medium transition flex items-center justify-center">
                         Reset
                     </a>
                 </div>
 
-                <!-- Tombol Tambah -->
                 <button type="button" onclick="toggleModal('addTransactionModal')"
                     class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center justify-center gap-2 shadow-lg shadow-blue-500/30 transition transform active:scale-95 whitespace-nowrap">
                     <i class="fa-solid fa-plus"></i>
@@ -72,7 +64,6 @@
             </form>
         </div>
 
-        <!-- SECTION TABEL -->
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
@@ -145,10 +136,8 @@
                 </table>
             </div>
 
-            <!-- Pagination Laravel -->
             <div class="px-4 py-3 border-t border-gray-200 bg-gray-50">
                 {{ $transactions->links('components.pagenation') }}
-                <!-- Pastikan di AppServiceProvider menggunakan Paginator::useTailwind() -->
             </div>
         </div>
     </div>
@@ -179,20 +168,16 @@
             const walletId = el.getAttribute('data-wallet-id');
             const categoryId = el.getAttribute('data-category-id');
 
-            // Set form action
             document.getElementById('form-editTransactionModal').action = `/transactions/${id}`;
 
-            // Set values on modal
             document.getElementById('edit_amount').value = amount;
             document.getElementById('edit_date').value = date;
             document.getElementById('edit_description').value = description || '';
             document.getElementById('edit_wallet_select').value = walletId;
 
-            // Type radio
             const radios = document.querySelectorAll('#editTransactionModal input[name="type"]');
             radios.forEach(r => r.checked = (r.value === type));
 
-            // Filter categories to show only those matching type, then set the category id
             window.filterCategoriesForEdit(type);
             document.getElementById('edit_category_select').value = categoryId;
 

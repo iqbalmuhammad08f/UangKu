@@ -31,7 +31,6 @@ class User extends Authenticatable
         ];
     }
 
-    // Relationships
     public function wallets()
     {
         return $this->hasMany(Wallet::class);
@@ -47,14 +46,12 @@ class User extends Authenticatable
         return $this->hasMany(Transaction::class);
     }
 
-    // Accessor untuk avatar URL
     public function getAvatarUrlAttribute()
     {
         if ($this->avatar && Storage::disk('public')->exists($this->avatar)) {
             return Storage::url($this->avatar);
         }
 
-        // Default avatar dengan initial nama
         return 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=3b82f6&color=fff&size=200';
     }
 }

@@ -20,7 +20,7 @@ class AuthController extends Controller
     {
         $validation = $request->validate([
             'email' => 'required|email',
-            'password' => 'required|min:3'
+            'password' => 'required|min:8'
         ]);
 
         if (Auth::attempt($validation)) {
@@ -41,7 +41,7 @@ class AuthController extends Controller
         $validation = $request->validate([
             'name' => 'required|min:3|max:255',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|confirmed|min:6'
+            'password' => 'required|confirmed|min:8'
         ]);
 
         $user = User::create([
@@ -50,7 +50,7 @@ class AuthController extends Controller
             'password' => Hash::make($validation['password'])
         ]);
         $categorys = Category::whereNull('user_id')->get();
-        
+
         foreach ($categorys as $cat) {
             Category::create([
                 'user_id' => $user->id,
@@ -94,7 +94,7 @@ class AuthController extends Controller
         $request->validate([
             'token' => 'required',
             'email' => 'required|email',
-            'password' => 'required|confirmed|min:6',
+            'password' => 'required|confirmed|min:8',
         ]);
 
         $resetRecord = PasswordResetToken::findValidToken($request->email, $request->token);

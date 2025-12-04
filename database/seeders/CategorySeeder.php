@@ -9,7 +9,7 @@ class CategorySeeder extends Seeder
 {
     public function run(): void
     {
-        // Kategori Global Pengeluaran
+        // kategori pengeluaran
         $expenses = ['makan', 'belanja', 'tagihan'];
         foreach ($expenses as $name) {
             Category::create([
@@ -20,7 +20,7 @@ class CategorySeeder extends Seeder
             ]);
         }
 
-        // Kategori Global Pemasukan
+        // kategori pemasukan
         $incomes = ['gaji'];
         foreach ($incomes as $name) {
             Category::create([

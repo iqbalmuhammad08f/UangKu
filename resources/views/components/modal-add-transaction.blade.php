@@ -69,7 +69,6 @@
                             class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm bg-white"
                             required>
                             <option value="">Pilih Kategori</option>
-                            <!-- Opsi diisi via JS agar dinamis sesuai tipe -->
                             @foreach ($categories as $cat)
                                 <option value="{{ $cat->id }}" data-type="{{ $cat->type }}">
                                     {{ $cat->name }}</option>
@@ -114,11 +113,10 @@
         const select = document.getElementById('modal_category_select');
         const options = select.querySelectorAll('option');
 
-        // Reset selection
         select.value = "";
 
         options.forEach(option => {
-            if (option.value === "") return; // Skip placeholder
+            if (option.value === "") return;
 
             const catType = option.getAttribute('data-type');
             if (catType === type) {
@@ -129,7 +127,6 @@
         });
     }
 
-    // Jalankan sekali saat load agar sesuai default (expense)
     document.addEventListener('DOMContentLoaded', function() {
         filterCategories('expense');
     });

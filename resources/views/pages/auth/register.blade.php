@@ -26,7 +26,7 @@
                 <x-input name="email" placeholder="contoh@email.com" label="Email" icon="fa-solid fa-envelope"
                     value="{{ old('email') }}" />
 
-                <x-input name="password" type="password" placeholder="Masukkan password: min 6 karakter" label="Password"
+                <x-input name="password" type="password" placeholder="Masukkan password: min 8 karakter" label="Password"
                     icon="fa-solid fa-lock" />
 
                 <x-input name="password_confirmation" type="password" placeholder="Ulangi password" label="Ulangi Password"

@@ -14,25 +14,20 @@ class dashboardController extends Controller
     public function index()
     {
         $userId = Auth::id();
-        // Read filter from the request query params
-        $incomeRange = request()->query('income_range', 'month'); // 'month' or 'all'
-        $expenseRange = request()->query('expense_range', 'month'); // 'month' or 'all'
 
-        // Ambil 5 transaksi terbaru
+        $incomeRange = request()->query('income_range', 'month');
+        $expenseRange = request()->query('expense_range', 'month');
+
         $recentTransactions = Transaction::where('user_id', $userId)
             ->with(['wallet', 'category'])
-            ->latest('created_at')
+            ->latest('date')
             ->take(5)
             ->get();
 
-        // Ambil semua wallet user
         $wallets = Wallet::where('user_id', $userId)->get();
 
-        // Hitung total saldo dari semua wallet
         $totalBalance = $wallets->sum('balance');
 
-        // Hitung pemasukan bulan ini
-        // Income: either for this month or all time, depending on $incomeRange
         $incomeThisMonth = Transaction::where('user_id', $userId)
             ->where('type', 'income');
         if ($incomeRange === 'month') {
@@ -41,8 +36,6 @@ class dashboardController extends Controller
         }
         $incomeThisMonth = $incomeThisMonth->sum('amount');
 
-        // Hitung pengeluaran bulan ini
-        // Expense: either for this month or all time, depending on $expenseRange
         $expenseThisMonth = Transaction::where('user_id', $userId)
             ->where('type', 'expense');
         if ($expenseRange === 'month') {
@@ -51,13 +44,12 @@ class dashboardController extends Controller
         }
         $expenseThisMonth = $expenseThisMonth->sum('amount');
 
-        // Tambahkan di dashboard controller
         $categories = Category::where('user_id', $userId)->get();
 
         return view('pages.dashboard.index', compact(
             'recentTransactions',
             'wallets',
-            'categories',  // Tambahkan ini
+            'categories',
             'totalBalance',
             'incomeThisMonth',
             'expenseThisMonth',

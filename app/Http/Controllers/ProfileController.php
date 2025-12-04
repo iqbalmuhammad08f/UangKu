@@ -10,9 +10,6 @@ use Illuminate\Validation\Rules\Password;
 
 class ProfileController extends Controller
 {
-    /**
-     * Tampilkan halaman profil
-     */
     public function index()
     {
         return view('pages.profil.index', [
@@ -20,9 +17,6 @@ class ProfileController extends Controller
         ]);
     }
 
-    /**
-     * Update profil user (nama, email, avatar)
-     */
     public function update(Request $request)
     {
         $user = Auth::user();
@@ -41,31 +35,23 @@ class ProfileController extends Controller
             'avatar.max' => 'Ukuran avatar maksimal 2MB',
         ]);
 
-        // Cek apakah email berubah
         $emailChanged = $user->email !== $validated['email'];
 
-        // Handle upload avatar
         if ($request->hasFile('avatar')) {
-            // Hapus avatar lama jika ada
             if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
                 Storage::disk('public')->delete($user->avatar);
             }
 
-            // Simpan avatar baru
             $avatarPath = $request->file('avatar')->store('avatars', 'public');
             $validated['avatar'] = $avatarPath;
         }
 
-        // Update data user
         $user->update($validated);
 
-        // Jika email berubah, reset verifikasi email
         if ($emailChanged) {
             $user->email_verified_at = null;
             $user->save();
 
-            // Kirim email verifikasi (opsional - jika Anda implementasi verifikasi email)
-            // $user->sendEmailVerificationNotification();
 
             return redirect()->route('profile.index')
                 ->with('warning', 'Profil berhasil diperbarui. Email Anda telah berubah, silakan lakukan verifikasi ulang.');
@@ -75,9 +61,6 @@ class ProfileController extends Controller
             ->with('success', 'Profil berhasil diperbarui!');
     }
 
-    /**
-     * Update password
-     */
     public function updatePassword(Request $request)
     {
         $validated = $request->validate([
@@ -92,14 +75,12 @@ class ProfileController extends Controller
 
         $user = Auth::user();
 
-        // Cek apakah password saat ini benar
         if (!Hash::check($validated['current_password'], $user->password)) {
             return back()->withErrors([
                 'current_password' => 'Password saat ini tidak sesuai'
             ])->withInput();
         }
 
-        // Update password
         $user->update([
             'password' => Hash::make($validated['new_password'])
         ]);
@@ -108,14 +89,11 @@ class ProfileController extends Controller
             ->with('success', 'Password berhasil diperbarui!');
     }
 
-    /**
-     * Hapus akun user
-     */
+
     public function destroy(Request $request)
     {
         $user = Auth::user();
 
-        // Validasi password untuk konfirmasi
         $request->validate([
             'password' => ['required', 'string'],
         ], [
@@ -128,21 +106,12 @@ class ProfileController extends Controller
             ])->withInput();
         }
 
-        // Hapus avatar jika ada
         if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
             Storage::disk('public')->delete($user->avatar);
         }
 
-        // Hapus semua data terkait user akan otomatis terhapus jika menggunakan cascade
-        // Atau Anda bisa hapus manual satu per satu:
-        // $user->wallets()->delete();
-        // $user->categories()->delete();
-        // $user->transactions()->delete();
-
-        // Logout
         Auth::logout();
 
-        // Hapus user
         $user->delete();
 
         $request->session()->invalidate();

@@ -15,24 +15,20 @@ class TransactionController extends Controller
     {
         $userId = Auth::id();
 
-        // 1. Ambil Data untuk Dropdown (Filter & Modal)
         $wallets = Wallet::where('user_id', $userId)->get();
 
-        // Ambil kategori custom user + kategori global (jika masih menggunakan konsep global)
-        // Sesuai request terakhir Anda (semua kategori dicopy ke user), cukup ambil based on user_id
         $categories = Category::where('user_id', $userId)->get();
 
-        // 2. Query Transaksi dengan Filter & Pagination
         $transactions = Transaction::where('user_id', $userId)
-            ->with(['wallet', 'category']) // Eager Load biar query ringan
+            ->with(['wallet', 'category'])
             ->filter([
                 'date' => $request->query('filter_date'),
                 'category_id' => $request->query('filter_category_id'),
                 'wallet_id' => $request->query('filter_wallet_id'),
             ])
-            ->latest() // Urutkan dari yang terbaru
-            ->paginate(10)   // Pagination 10 data
-            ->withQueryString(); // Agar parameter filter tetap ada saat pindah halaman
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
 
         return view('pages.transactions.index', compact('transactions', 'wallets', 'categories'));
     }
@@ -49,7 +45,6 @@ class TransactionController extends Controller
         ]);
 
         DB::transaction(function () use ($request) {
-            // 1. Simpan Transaksi
             Transaction::create([
                 'user_id' => Auth::id(),
                 'wallet_id' => $request->wallet_id,
@@ -60,7 +55,6 @@ class TransactionController extends Controller
                 'date' => $request->date,
             ]);
 
-            // 2. Update Saldo Dompet
             $wallet = Wallet::where('user_id', Auth::id())->findOrFail($request->wallet_id);
             if ($request->type == 'income') {
                 $wallet->increment('balance', $request->amount);
@@ -77,18 +71,14 @@ class TransactionController extends Controller
         $transaction = Transaction::where('user_id', Auth::id())->findOrFail($id);
 
         DB::transaction(function () use ($transaction) {
-            // 1. Kembalikan Saldo Dompet (Reverse Logic)
             $wallet = Wallet::withTrashed()->findOrFail($transaction->wallet_id);
 
             if ($transaction->type == 'income') {
-                // Kalau tadinya pemasukan dihapus, saldo dompet dikurangi
                 $wallet->decrement('balance', $transaction->amount);
             } else {
-                // Kalau tadinya pengeluaran dihapus, uang dikembalikan ke dompet
                 $wallet->increment('balance', $transaction->amount);
             }
 
-            // 2. Hapus Transaksi
             $transaction->delete();
         });
 
@@ -122,7 +112,6 @@ class TransactionController extends Controller
         DB::transaction(function () use ($request, $id, $userId) {
             $transaction = Transaction::where('user_id', $userId)->findOrFail($id);
 
-            // Reverse previous effect on old wallet
             $oldWallet = Wallet::withTrashed()->findOrFail($transaction->wallet_id);
             if ($transaction->type == 'income') {
                 $oldWallet->decrement('balance', $transaction->amount);
@@ -130,7 +119,6 @@ class TransactionController extends Controller
                 $oldWallet->increment('balance', $transaction->amount);
             }
 
-            // Apply new effect on (possibly new) wallet
             $newWallet = Wallet::where('user_id', $userId)->findOrFail($request->wallet_id);
             if ($request->type == 'income') {
                 $newWallet->increment('balance', $request->amount);
@@ -138,7 +126,6 @@ class TransactionController extends Controller
                 $newWallet->decrement('balance', $request->amount);
             }
 
-            // Save transaction
             $transaction->update([
                 'wallet_id' => $request->wallet_id,
                 'category_id' => $request->category_id,
